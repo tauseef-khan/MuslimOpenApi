@@ -1,15 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using MuslimOpenApi.Data;
+using Npgsql;
 
 namespace MuslimOpenApi
 {
@@ -26,6 +22,21 @@ namespace MuslimOpenApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            var builder = new NpgsqlConnectionStringBuilder
+            {
+                Host = "",
+                Port = ,
+                Username = "",
+                Password = "",
+                Database = "",
+                Pooling = ,
+                TrustServerCertificate = ,
+                SslMode = 
+            };
+
+            services.AddEntityFrameworkNpgsql()
+                    .AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(builder.ToString()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -35,7 +46,6 @@ namespace MuslimOpenApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseHttpsRedirection();
 
             app.UseRouting();
