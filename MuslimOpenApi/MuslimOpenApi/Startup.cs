@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MuslimOpenApi.Data;
 using Npgsql;
+using System;
 
 namespace MuslimOpenApi
 {
@@ -25,14 +26,14 @@ namespace MuslimOpenApi
 
             var builder = new NpgsqlConnectionStringBuilder
             {
-                Host = "",
-                Port = ,
-                Username = "",
-                Password = "",
-                Database = "",
-                Pooling = ,
-                TrustServerCertificate = ,
-                SslMode = 
+                Host = Environment.GetEnvironmentVariable("HOST"),
+                Port = 5432,
+                Username = Environment.GetEnvironmentVariable("USERNAME"),
+                Password = Environment.GetEnvironmentVariable("PASSWORD"),
+                Database = Environment.GetEnvironmentVariable("DATABASE"),
+                Pooling = true,
+                TrustServerCertificate = true,
+                SslMode = SslMode.Require
             };
 
             services.AddEntityFrameworkNpgsql()
