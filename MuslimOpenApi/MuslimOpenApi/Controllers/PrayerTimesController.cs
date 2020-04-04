@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using MuslimOpenApi.Data;
+using MuslimOpenApi.Helpers;
 
 namespace MuslimOpenApi.Controllers
 {
@@ -19,7 +20,7 @@ namespace MuslimOpenApi.Controllers
         public IActionResult Get()
         {
             var abc = _context.PrayerTimes.Count();
-            var prayerTimeObject = _context.PrayerTimes.Where(x => x.Date.Contains("01-01-2020")).ToList();
+            var prayerTimeObject = _context.PrayerTimes.Where(x => x.Date.Contains(DateHelper.GetTodaysDate())).ToList();
 
             if (!prayerTimeObject.Any())
             {
