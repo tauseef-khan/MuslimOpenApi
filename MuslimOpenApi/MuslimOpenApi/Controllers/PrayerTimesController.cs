@@ -5,7 +5,6 @@ using MuslimOpenApi.Data;
 namespace MuslimOpenApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
     public class PrayerTimesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -15,11 +14,10 @@ namespace MuslimOpenApi.Controllers
             _context = context;
         }
 
-        // GET: api/PrayerTimes
         [HttpGet]
+        [Route("prayertimes")]
         public IActionResult Get()
         {
-            //return new string[] { "value1", "value2" };
             var abc = _context.PrayerTimes.Count();
             var prayerTimeObject = _context.PrayerTimes.Where(x => x.Date.Contains("01-01-2020")).ToList();
 
@@ -31,31 +29,11 @@ namespace MuslimOpenApi.Controllers
             return Ok(prayerTimeObject);
         }
 
-        /*
-        // GET: api/PrayerTimes/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        [HttpGet]
+        [Route("prayertimes/{month}/{day}")]
+        public string Get([FromRoute] int month, int day)
         {
-            return "value";
+            return month.ToString() + " " + day.ToString();
         }
-
-        // POST: api/PrayerTimes
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT: api/PrayerTimes/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
-        */
     }
 }
