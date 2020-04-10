@@ -19,7 +19,6 @@ namespace MuslimOpenApi.Controllers
         [Route("prayertimes")]
         public IActionResult Get()
         {
-            var abc = _context.PrayerTimes.Count();
             var prayerTimeObject = _context.PrayerTimes.Where(x => x.Date.Contains(DateHelper.GetTodaysDate())).ToList();
 
             if (!prayerTimeObject.Any())
@@ -32,9 +31,20 @@ namespace MuslimOpenApi.Controllers
 
         [HttpGet]
         [Route("prayertimes/{month}/{day}")]
-        public string Get([FromRoute] int month, int day)
+        public IActionResult Get([FromRoute] int month, int day)
         {
-            return month.ToString() + " " + day.ToString();
+            if (!DateHelper.IsMonthValid(month))
+            {
+                return NotFound();
+            }
+            
+            if(DateHelper.IsDayValid(day, month))
+            {
+                var prayerTimeObject = _context.PrayerTimes.Where(x => x.Date.Contains(DateHelper.CreateDate(day, month))).ToList();
+                return Ok(prayerTimeObject);
+            }
+
+            return NotFound();
         }
     }
 }
