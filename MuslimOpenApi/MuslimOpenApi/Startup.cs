@@ -38,6 +38,9 @@ namespace MuslimOpenApi
 
             services.AddEntityFrameworkNpgsql()
                     .AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(builder.ToString()));
+
+            // Register the Swagger services
+            services.AddSwaggerDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +60,10 @@ namespace MuslimOpenApi
             {
                 endpoints.MapControllers();
             });
+
+            // Register the Swagger generator and the Swagger UI middlewares
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
         }
     }
 }
